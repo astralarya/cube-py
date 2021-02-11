@@ -22,7 +22,7 @@ def read(input: IO):
     return cards
 
 
-def write(file: IO, cards: Iterable[Iterable[str]]):
+def write(file: IO, cards: Iterable[Iterable[str]], header=HEADER):
     writer = csv.writer(file)
-    writer.writerow(HEADER)
+    writer.writerow(header)
     writer.writerows(cards)
