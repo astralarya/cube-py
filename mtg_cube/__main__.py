@@ -6,13 +6,13 @@ from mtg_cube.format import sealed
 
 
 @click.command()
-@click.argument("input", type=click.File("r"))
-@click.option("--output", "-o", type=click.Path(), default="out.csv")
+@click.argument("input_", type=click.File("r"))
+@click.option("--output", "-o", type=click.Path())
 @click.option("--sealed-size", type=int, default=90)
-def main(input, output, sealed_size):
-    cards = mtgo_csv.read(input)
+def main(input_, output, sealed_size):
+    cards = mtgo_csv.read(input_)
     pools = sealed.run(cards, sealed_size)
-    outpath = Path(output)
+    outpath = Path(output if output is not None else input_.name)
     for idx, pool in enumerate(pools):
         with outpath.with_suffix(f".{idx}{outpath.suffix}").open("w") as outfile:
             mtgo_csv.write(outfile, pool)
